@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title','product')
 
 @section('content')
     <!DOCTYPE html>

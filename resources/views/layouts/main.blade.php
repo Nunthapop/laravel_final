@@ -7,6 +7,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 </head>
+<header>
+    <a href="{{route('products.list')}}">Products</a>
+    <a href="{{route('shops.list')}}">Shops</a>
+</header>
 <body>
     <header> <h1>@yield('title')</h1></header>
     @yield('content')

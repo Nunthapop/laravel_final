@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,4 +14,12 @@ route::controller(ProductController::class)
  {
     route::get('','list')->name('list');
     route::get('/{products}','show')->name('view');
+ });
+ route::controller(ShopController::class)
+ ->prefix('shops')
+ ->name('shops.')
+ ->group(static function()
+ {
+    route::get('','list')->name('list');
+    route::get('/{shops}','show')->name('view');
  });
