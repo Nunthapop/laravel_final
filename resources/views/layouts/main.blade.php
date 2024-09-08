@@ -23,7 +23,7 @@
         <li> <a href="{{ route('shops.list')}}">Shops</a></li>
     </ul>
     <p>652110118</p>
-
+check
 
 </nav></br>
 
