@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title','product')
+@section('title','Product')
 
 @section('content')
     <!DOCTYPE html>
@@ -13,7 +13,7 @@
     </head>
 
     <body>
-        <table>
+        <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>
                 <th>Name</th>
@@ -21,7 +21,7 @@
             <tbody>
                 <tr>
                     @foreach ($products as $product)
-                        <td> <a href="{{route ('products.view',['products' => $product->code,])}}"> {{ $product->code }} </a> </td>
+                        <td class="underline font-bold hover:text-blue-600"> <a  href="{{route ('products.view',['products' => $product->code,])}}"> {{ $product->code }} </a> </td>
                         <td> {{ $product->name }}</td>
                 </tr>
                 @endforeach

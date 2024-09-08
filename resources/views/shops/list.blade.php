@@ -12,8 +12,8 @@
         <title>Document</title>
     </head>
 
-    <body>
-        <table>
+    
+        <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>
                 <th>Name</th>
@@ -22,7 +22,7 @@
             <tbody>
                 <tr>
                     @foreach ($shops as $shop)
-                        <td> <a href="{{route ('shops.view',['shops' => $shop->code,])}}"> {{ $shop->code }} </a> </td>
+                        <td class="underline"> <a href="{{route ('shops.view',['shops' => $shop->code,])}}"> {{ $shop->code }} </a> </td>
                         <td> {{ $shop->name }}</td>
                         <td> {{ $shop->owner }}</td>
                 </tr>
@@ -31,7 +31,7 @@
         </table>
 
 
-    </body>
+   
 
     </html>
 @endsection

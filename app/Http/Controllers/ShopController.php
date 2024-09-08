@@ -30,3 +30,4 @@ class ShopController extends Controller
         ]);
     }
 }
+
