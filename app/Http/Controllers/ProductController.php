@@ -9,12 +9,18 @@ use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 
 
- abstract class ProductController extends SearchableController
+  class ProductController extends SearchableController
 {
     // At the top of file
     // We alias ServerRequestInterface to Request for short
     // Add the following property and methods in class body
     private string $title = 'Product';
+    public function getQuery(): Builder
+    {
+        //return ข้อมูลจาก database เรียงตาม code
+        // Return the query builder for the Product model
+        return Product::orderby('code');
+    }
 
     function list(ServerRequestInterface $request): View
     {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 // Keyword abstract means MUST be overridden later.
 abstract class SearchableController extends Controller
 {
-    abstract function getQuery() : Builder;
+    abstract public function getQuery() : Builder;
     function filterByTerm(Builder $query, ?string $term): Builder
     {
        
