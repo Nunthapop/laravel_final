@@ -2,33 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-// use Psr\Http\Message\ServerRequestInterface as Request;
+use Illuminate\Http\RedirectResponse;
+use Psr\Http\Message\ServerRequestInterface;
 use App\Models\Product;
 use Illuminate\View\View;
+use Illuminate\Database\Eloquent\Builder;
 
-class ProductController extends Controller
+
+ abstract class ProductController extends SearchableController
 {
     // At the top of file
     // We alias ServerRequestInterface to Request for short
     // Add the following property and methods in class body
     private string $title = 'Product';
 
-    function list(): View
+    function list(ServerRequestInterface $request): View
     {
-       
-      $products = Product::orderby('code')->get();
+        $search = $this->prepareSearch($request->getQueryParams());
+        $query = $this->search($search);
         return view('products.list', [
             'title' => "{$this->title} : List",
-            'products' => Product::orderBy('code')->get(),
+            'search' => $search,
+            'products' => $query->paginate(5),
         ]);
     }
+
     function show(string $productCode): View
     {
-        $product = Product::where('code',$productCode)->firstOrFail();
+        $product = $this->find($productCode);
         return view('products.view', [
-            'title' => "{$this->title} : list",
+            'title' => "{$this->title} : View",
             'product' => $product,
         ]);
+    }
+    function showCreateForm(): View
+    {
+        return view('products.create-form', [
+            'title' => "{$this->title} : Create ",
+        ]);
+    }
+    function create(ServerRequestInterface $request): RedirectResponse
+    {
+        $product = Product::create($request->getParsedBody());
+        return redirect()->route('products.list');
     }
 }

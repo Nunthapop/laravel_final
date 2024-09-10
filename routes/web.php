@@ -12,7 +12,11 @@ route::controller(ProductController::class)
    ->name('products.')
    ->group(static function () {
       route::get('', 'list')->name('list');
+      route::get('/create', 'showCreateForm')->name('create-form');
+      route::post('/create', 'create')->name('create');
       route::get('/{products}', 'show')->name('view');
+      
+      
    });
 route::controller(ShopController::class)
    ->prefix('shops')
