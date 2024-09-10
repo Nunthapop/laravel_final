@@ -14,9 +14,11 @@ route::controller(ProductController::class)
       route::get('', 'list')->name('list');
       route::get('/create', 'showCreateForm')->name('create-form');
       route::post('/create', 'create')->name('create');
-      route::get('/{products}', 'show')->name('view');
-      
-      
+      route::prefix('/{product}')->group(function() {
+         route::get('/{products}', 'show')->name('view');
+         route::get('/update', 'showUpdateForm')->name('update-form');
+         route::post('/update', 'update')->name('update');
+      });
    });
 route::controller(ShopController::class)
    ->prefix('shops')
