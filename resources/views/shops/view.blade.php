@@ -2,6 +2,10 @@
 @section('title',$shop->code)
 
 @section('content')
+<ul>
+    <li> <a href="{{route('shops.update-form' , ['shop' => $shop->code])}}">Update</a></li>
+    <li> <a href="{{route('shops.delete' , ['shop' => $shop->code])}}">delete</a></li>
+</ul>
 <table>
     <tbody>
         <tr>

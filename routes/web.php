@@ -12,10 +12,8 @@ route::controller(ProductController::class)
    ->name('products.')
    ->group(function () {
       route::get('', 'list')->name('list');
-      
       route::get('/create', 'showCreateForm')->name('create-form');
       route::post('/create', 'create')->name('create');
-      
       Route::prefix('/{product}')->group(function () {
          Route::get('', 'show')->name('view');
          Route::get('/update', 'showUpdateForm')->name('update-form');
@@ -26,7 +24,14 @@ route::controller(ProductController::class)
 route::controller(ShopController::class)
    ->prefix('shops')
    ->name('shops.')
-   ->group(static function () {
+   ->group( function () {
       route::get('', 'list')->name('list');
-      route::get('/{shops}', 'show')->name('view');
+      route::get('/create', 'showCreateForm')->name('create-form');
+      route::post('/create', 'create')->name('create');
+      Route::prefix('/{shop}')->group(function () {
+         Route::get('', 'show')->name('view');
+         Route::get('/update', 'showUpdateForm')->name('update-form');
+         Route::post('/update', 'update')->name('update');
+         Route::get('/delete', 'delete')->name('delete');
+      });
    });

@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
     </head>
-
+    <div>{{ $shop->withQueryString()->links() }}</div>
     
         <table class="lg:w-1/2">
             <tr>
@@ -21,16 +21,16 @@
             </tr>
             <tbody>
                 <tr>
-                    @foreach ($shops as $shop)
-                        <td class="underline"> <a href="{{route ('shops.view',['shops' => $shop->code,])}}"> {{ $shop->code }} </a> </td>
-                        <td> {{ $shop->name }}</td>
-                        <td> {{ $shop->owner }}</td>
+                    @foreach ($shop as $shops)
+                        <td class="underline"> <a href="{{route ('shops.view',['shop' => $shops->code,])}}"> {{ $shops->code }} </a> </td>
+                        <td> {{ $shops->name }}</td>
+                        <td> {{ $shops->owner }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
-
+        <a href="{{ route('shops.create-form') }}">Create shops</a>
    
 
     </html>
