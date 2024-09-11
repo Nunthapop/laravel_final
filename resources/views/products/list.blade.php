@@ -33,7 +33,7 @@
                 <tr>
                     @foreach ($products as $product)
                         <td class="underline font-bold hover:text-blue-600"> <a
-                                href="{{ route('products.view', ['products' => $product->code]) }}"> {{ $product->code }}
+                                href="{{ route('products.view', ['product' => $product->code]) }}"> {{ $product->code }}
                             </a> </td>
                         <td> {{ $product->name }}</td>
                 </tr>
