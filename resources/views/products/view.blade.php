@@ -1,5 +1,4 @@
 @extends('layouts.main')
-
 @section('title',$product->code)
 @section('content')
 <main>
