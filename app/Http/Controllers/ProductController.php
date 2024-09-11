@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\Builder;
             'product' => $product,
         ]);
     }
+    //create part
     function showCreateForm(): View
     {
         return view('products.create-form', [
@@ -52,4 +53,6 @@ use Illuminate\Database\Eloquent\Builder;
         $product = Product::create($request->getParsedBody());
         return redirect()->route('products.list');
     }
+    //update part
+    
 }

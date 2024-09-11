@@ -1,6 +1,13 @@
 @extends('layouts.main')
 @section('title',$product->code)
 @section('content')
+
+
+
+
+<ul>
+    <li> <a href="{{route('products.update-form' , ['product' => $product->code])}}">Update</a></li>
+</ul>
 <main>
  
     <table>
@@ -21,4 +28,5 @@
         </tbody>
     </table>
 </main>
+
 @endsection
