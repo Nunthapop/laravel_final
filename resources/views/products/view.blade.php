@@ -6,10 +6,9 @@
 
 
 <ul>
-    <li> <a href="{{route('products.update-form' , ['product' => $product->code])}}">Update</a></li>
+    {{-- <li> <a href="{{route('products.update-form' , ['product' => $product->code])}}">Update</a></li> --}}
 </ul>
 <main>
- 
     <table>
         <tbody>
             <tr>
@@ -17,7 +16,6 @@
                 <th>name</th>
                 <th>price</th>
                 <th>description</th>
-
             </tr>
             <tr>
                 <td>{{$product->code}}</td>

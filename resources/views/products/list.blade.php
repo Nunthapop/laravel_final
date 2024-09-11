@@ -22,9 +22,7 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
-
     <div>{{ $products->withQueryString()->links() }}</div>
-
     <body>
         <table class="lg:w-1/2">
             <tr>
@@ -42,8 +40,6 @@
                 @endforeach
             </tbody>
         </table>
-
-
     </body>
     <a href="{{ route('products.create-form') }}">New product</a>
 

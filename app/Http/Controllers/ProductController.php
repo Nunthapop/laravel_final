@@ -54,5 +54,19 @@ use Illuminate\Database\Eloquent\Builder;
         return redirect()->route('products.list');
     }
     //update part
+    // function showUpdateForm(string $productCode): View{
+    //     $product = $this->find($productCode);
+        
+    //     return view('products.update-form', [
+    //         'title' => "{$this->title} : Update",
+    //         'product' => $product,
+    //     ]);
+    // }
+    // function update(ServerRequestInterface $request, string $productCode): RedirectResponse{
+    //     $product =$this->find($productCode);
+    //     $product->fill($request->getParsedBody());
+    //     $product->save();
+    //     return redirect()->route('products.view', ['product' => $product->code]);
+    // }
     
 }
