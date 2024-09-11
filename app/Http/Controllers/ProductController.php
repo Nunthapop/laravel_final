@@ -9,7 +9,7 @@ use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 
 
-  class ProductController extends SearchableController
+class ProductController extends SearchableController
 {
     // At the top of file
     // We alias ServerRequestInterface to Request for short
@@ -54,24 +54,62 @@ use Illuminate\Database\Eloquent\Builder;
         return redirect()->route('products.list');
     }
     //update part
-    function showUpdateForm(string $productCode): View{
+    function showUpdateForm(string $productCode): View
+    {
         $product = $this->find($productCode);
-        
+
         return view('products.update-form', [
             'title' => "{$this->title} : Update",
             'product' => $product,
         ]);
     }
-    function update(ServerRequestInterface $request, string $productCode): RedirectResponse{
-        $product =$this->find($productCode);
+    function update(ServerRequestInterface $request, string $productCode): RedirectResponse
+    {
+        $product = $this->find($productCode);
         $product->fill($request->getParsedBody());
         $product->save();
         return redirect()->route('products.view', ['product' => $product->code]);
     }
-    function delete(string $productCode): RedirectResponse{
-        $product =$this ->find($productCode) ;
-        $product ->delete();
-        return redirect() ->route('products.list');
+    function delete(string $productCode): RedirectResponse
+    {
+        $product = $this->find($productCode);
+        $product->delete();
+        return redirect()->route('products.list');
     }
-    
+    //price_filter
+    function prepareSearch(array $search): array
+    {
+        $search = parent::prepareSearch($search);
+        $search = \array_merge([
+            'minPrice' => null,
+            'maxPrice' => null,
+        ], $search);
+        return $search;
+    }
+    function filterByPrice(
+        Builder $query,
+        ?float $minPrice,
+        ?float $maxPrice
+    ): Builder {
+        if ($minPrice !== null) {
+            $query->where('price', '>=', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        return $query;
+    }
+    function filter(Builder $query, array $search): Builder
+    {
+        $query = parent::filter($query, $search);
+        $query = $this->filterByPrice(
+            $query,
+            ($search['minPrice'] === null) ? null : (float) $search['minPrice'],
+            ($search['maxPrice'] === null) ? null : (float) $search['maxPrice'],
+        );
+
+        return $query;
+    }
 }

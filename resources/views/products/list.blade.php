@@ -16,6 +16,14 @@
             Search
             <input type="text" name="term" value="{{ $search['term'] }}" />
         </label>
+        <label>
+            Min Price
+            <input type="number" name="minPrice" value="{{ $search['minPrice'] }}" step="any" />
+        </label><br />
+        <label>
+            Max Price
+            <input type="number" name="maxPrice" value="{{ $search['maxPrice'] }}" step="any" />
+        </label><br />
         <br />
         <button type="submit" class="primary">Search</button>
         <a href="{{ route('products.list') }}">
@@ -23,11 +31,13 @@
         </a>
     </form>
     <div>{{ $products->withQueryString()->links() }}</div>
+
     <body>
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>
                 <th>Name</th>
+                <th>Price</th>
             </tr>
             <tbody>
                 <tr>
@@ -36,6 +46,7 @@
                                 href="{{ route('products.view', ['product' => $product->code]) }}"> {{ $product->code }}
                             </a> </td>
                         <td> {{ $product->name }}</td>
+                        <td> {{ $product->price }}</td>
                 </tr>
                 @endforeach
             </tbody>
