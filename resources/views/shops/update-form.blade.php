@@ -20,7 +20,7 @@
             <p><strong> Lattitude:</strong>:: <input type="text" min=0 name="lattitude" value="{{$shop->lattitude}}"></p>
             <p><strong> Longtitude:</strong>:: <input type="text" name=0 name="longtitude" value="{{$shop->longtitude}}"></p>
             <p><strong> Address:</strong>::
-            <textarea name="description" cols="30" rows="10">{{$shop->address}}</textarea>
+            <textarea name="address" cols="30" rows="10">{{$shop->address}}</textarea>
         </body>
         <button type="submit">Submit</button>
     </form>

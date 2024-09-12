@@ -21,7 +21,7 @@
             <p><strong> latitude:</strong>:: <input type="number" min=0 name="latitude" step="0.01"></p>
             <p><strong> longitude:</strong>:: <input type="number" min=0 name="longitude"step="0.01"></p>
             <p><strong> Address </strong>::
-            <textarea name="description" cols="30" rows="10"></textarea>
+            <textarea name="address" cols="30" rows="10"></textarea>
 
         </body>
         <button type="submit">Submit</button>
