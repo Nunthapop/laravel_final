@@ -22,13 +22,16 @@ class ShopController extends SearchableController
 
 
 //list
-    function list(): View
+    function list(ServerRequestInterface $request): View
     {
-       
+        $search = $this->prepareSearch($request->getQueryParams());
+        $query = $this->search($search);
       //Shop Models
         return view('shops.list', [
             'title' => "{$this->title} : List",
-            'shop' => Shop::orderBy('code')->paginate(5),
+             'search' => $search,
+            'shop' => $query->paginate(5),
+           
         ]);
     }
     //view

@@ -11,6 +11,16 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
     </head>
+    <form action="{{ route('shops.list') }}" method="get" class="search-form">
+        <label>
+            Search
+            <input type="text" name="term" value="{{ $search['term'] }}" />
+        </label>
+        <button type="submit" class="primary">Search</button>
+        <a href="{{ route('shops.list') }}">
+            <button type="button" class="accent">Clear</button>
+        </a>
+    </form>
     <div>{{ $shop->withQueryString()->links() }}</div>
     
         <table class="lg:w-1/2">
