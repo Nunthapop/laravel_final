@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 // Keyword abstract means MUST be overridden later.
 abstract class SearchableController extends Controller
 {
     abstract public function getQuery() : Builder;
-    function filterByTerm(Builder $query, ?string $term): Builder
+    function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation
     {
        
 
@@ -32,7 +33,7 @@ abstract class SearchableController extends Controller
         $search['term'] = $search['term'] ?? null;
         return $search;
     }
-    function filter(Builder $query, array $search): Builder
+    function filter(Builder|Relation $query, array $search): Builder|Relation
     {
         return $this->filterByTerm($query, $search['term']);
     }

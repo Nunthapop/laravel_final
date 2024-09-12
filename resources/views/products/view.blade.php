@@ -6,6 +6,7 @@
 
 
 <ul>
+    <li> <a href="{{route('products.view-shops',['product' => $product->code])}}">Shows shop</a></li>
     <li> <a href="{{route('products.update-form' , ['product' => $product->code])}}">Update</a></li>
     <li> <a href="{{route('products.delete' , ['product' => $product->code])}}">delete</a></li>
 </ul>

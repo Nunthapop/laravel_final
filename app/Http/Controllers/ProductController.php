@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use App\Models\Product;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 
 class ProductController extends SearchableController
@@ -25,7 +26,7 @@ class ProductController extends SearchableController
     function list(ServerRequestInterface $request): View
     {
         $search = $this->prepareSearch($request->getQueryParams());
-        $query = $this->search($search);
+        $query = $this->search($search)->withCount('shops');
         return view('products.list', [
             'title' => "{$this->title} : List",
             'search' => $search,
@@ -87,10 +88,10 @@ class ProductController extends SearchableController
         return $search;
     }
     function filterByPrice(
-        Builder $query,
+        Builder|Relation $query,
         ?float $minPrice,
         ?float $maxPrice
-    ): Builder {
+    ): Builder|Relation {
         if ($minPrice !== null) {
             $query->where('price', '>=', $minPrice);
         }
@@ -101,7 +102,7 @@ class ProductController extends SearchableController
 
         return $query;
     }
-    function filter(Builder $query, array $search): Builder
+    function filter(Builder|Relation $query, array $search): Builder|Relation
     {
         $query = parent::filter($query, $search);
         $query = $this->filterByPrice(
@@ -109,7 +110,39 @@ class ProductController extends SearchableController
             ($search['minPrice'] === null) ? null : (float) $search['minPrice'],
             ($search['maxPrice'] === null) ? null : (float) $search['maxPrice'],
         );
+        return $query;
+    }
+    function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation
+    {
+
+
+        if (!empty($term)) {
+            foreach (\preg_split('/\s+/', \trim($term)) as $word) {
+                $query->where(function (Builder $innerQuery) use ($word) {
+                    $innerQuery
+                        ->where('code', 'LIKE', "%{$word}%")
+                        ->orWhere('name', 'LIKE', "%{$word}%");
+                });
+            }
+        }
 
         return $query;
+    }
+    function showShops(
+        ServerRequestInterface $request,
+        ShopController $shopController,
+        string $productCode
+    ): View {
+        $product = $this->find($productCode);
+        $search = $shopController->prepareSearch($request->getQueryParams());
+        $query = $shopController->filter($product->shops(), $search);
+
+        return view('products.view-shops', [
+            'title' => "{$this->title} {$product->code} : Shop",
+
+            'product' => $product,
+            'search' => $search,
+            'shops' => $query->paginate(5),
+        ]);
     }
 }
