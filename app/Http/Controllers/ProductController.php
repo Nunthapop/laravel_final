@@ -77,7 +77,7 @@ class ProductController extends SearchableController
         $product->delete();
         return redirect()->route('products.list');
     }
-    //price_filter
+    //search part
     function prepareSearch(array $search): array
     {
         $search = parent::prepareSearch($search);
@@ -100,16 +100,6 @@ class ProductController extends SearchableController
             $query->where('price', '<=', $maxPrice);
         }
 
-        return $query;
-    }
-    function filter(Builder|Relation $query, array $search): Builder|Relation
-    {
-        $query = parent::filter($query, $search);
-        $query = $this->filterByPrice(
-            $query,
-            ($search['minPrice'] === null) ? null : (float) $search['minPrice'],
-            ($search['maxPrice'] === null) ? null : (float) $search['maxPrice'],
-        );
         return $query;
     }
     function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation

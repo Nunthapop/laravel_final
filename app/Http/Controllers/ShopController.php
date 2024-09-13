@@ -26,7 +26,7 @@ class ShopController extends SearchableController
     function list(ServerRequestInterface $request): View
     {
         $search = $this->prepareSearch($request->getQueryParams());
-        $query = $this->search($search);
+        $query = $this->search($search)->withCount('products');
       //Shop Models
         return view('shops.list', [
             'title' => "{$this->title} : List",
@@ -82,7 +82,7 @@ class ShopController extends SearchableController
         $shop->delete();
         return redirect()->route('shops.list');
     }
-    //search parts
+    //search part
     function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation
     {
        
@@ -101,13 +101,45 @@ class ShopController extends SearchableController
     }
     function prepareSearch(array $search): array
     {
-        // null coalescing Operator
-        $search['term'] = $search['term'] ?? null;
+        $search = parent::prepareSearch($search);
+        $search = \array_merge([
+            'minPrice' => null,
+            'maxPrice' => null,
+        ], $search);
         return $search;
     }
-    function filter(Builder|Relation $query, array $search): Builder|Relation
-    {
-        return $this->filterByTerm($query, $search['term']);
+    function filterByPrice(
+        Builder|Relation $query,
+        ?float $minPrice,
+        ?float $maxPrice
+    ): Builder|Relation {
+        if ($minPrice !== null) {
+            $query->where('price', '>=', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        return $query;
+    }
+    //show product
+    function showProducts(
+        ServerRequestInterface $request,
+        ProductController $ProductController,
+        string $shopCode
+    ): View {
+        $shops = $this->find($shopCode);
+        $search = $ProductController->prepareSearch($request->getQueryParams());
+        $query = $ProductController->filter($shops->products(), $search);
+
+        return view('shops.view-products', [
+            'title' => "{$this->title} {$shops->code} : Products",
+
+            'shops' => $shops,
+            'search' => $search,
+            'products' => $query->paginate(5),
+        ]);
     }
 
 }   

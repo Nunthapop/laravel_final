@@ -3,6 +3,7 @@
 
 @section('content')
 <ul>
+    <li> <a href="{{route('shops.view-products' , ['shop' => $shop->code])}}">Show Products</a></li>
     <li> <a href="{{route('shops.update-form' , ['shop' => $shop->code])}}">Update</a></li>
     <li> <a href="{{route('shops.delete' , ['shop' => $shop->code])}}">delete</a></li>
 </ul>
