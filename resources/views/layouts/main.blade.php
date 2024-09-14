@@ -18,6 +18,7 @@
     <ul class="flex justify-center items-center underline flex-rev ">
         <li class="mr-10"><a href="{{ route('products.list') }}">Products</a></li>
         <li> <a href="{{ route('shops.list')}}">Shops</a></li>
+        <li> <a href="{{ route('category.list')}}">Category</a></li>
     </ul>
     <p>652110118</p>
 

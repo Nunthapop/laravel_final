@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +33,20 @@ route::controller(ShopController::class)
       Route::prefix('/{shop}')->group(function () {
          Route::get('', 'show')->name('view');
          Route::get('/shop', 'showProducts',)->name('view-products');
+         Route::get('/update', 'showUpdateForm')->name('update-form');
+         Route::post('/update', 'update')->name('update');
+         Route::get('/delete', 'delete')->name('delete');
+      });
+   });
+   route::controller(CateController::class)
+   ->prefix('category')
+   ->name('category.')
+   ->group( function () {
+      route::get('', 'list')->name('list');
+      route::get('/create', 'showCreateForm')->name('create-form');
+      route::post('/create', 'create')->name('create');
+      Route::prefix('/{cateCode}')->group(function () {
+         Route::get('', 'show')->name('view');
          Route::get('/update', 'showUpdateForm')->name('update-form');
          Route::post('/update', 'update')->name('update');
          Route::get('/delete', 'delete')->name('delete');

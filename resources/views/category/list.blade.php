@@ -22,7 +22,7 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
-    <div>{{ $Cates->withQueryString()->links() }}</div>
+    <div>{{ $category->withQueryString()->links() }}</div>
 
     <body>
         <table class="lg:w-1/2">
@@ -34,9 +34,10 @@
             </tr>
             <tbody>
                 <tr>
-                    @foreach ($Cates as $cate)
+                    @foreach ($category as $cate)
                         <td class="underline font-bold hover:text-blue-600"> <a
-                                href="{{ route('category.view', ['category' => $cate->code]) }}"> {{ $product->code }}
+                                href="{{ route('category.view', ['cateCode' => $cate->code]) }}"> 
+                                {{$cate->code}}
                             </a> </td>
                         <td> {{ $cate->code }}</td>
                         <td> {{ $cate->name }}</td>
@@ -46,7 +47,7 @@
             </tbody>
         </table>
     </body>
-    <a href="{{ route('category.create-form') }}">New product</a>
+    <a href="{{ route('category.create-form') }}">New category</a>
 
     </html>
 @endsection

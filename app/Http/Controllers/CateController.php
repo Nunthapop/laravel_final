@@ -26,7 +26,7 @@ class CateController extends SearchableController
         return view('category.list', [
             'title' => "{$this->title} : List",
              'search' => $search,
-            'shop' => $query->paginate(5),
+            'category' => $query->paginate(5),
            
         ]);
 
@@ -38,5 +38,39 @@ class CateController extends SearchableController
             'title' => "{$this->title} : View",
             'Cates' => $Cates,
         ]);
+    }
+    //create 
+    function showCreateForm() :View{
+       return view( 'category.create-form' , [
+        'title' => "{$this->title} :Create"
+       ]);
+    }
+    function create(ServerRequestInterface $request): RedirectResponse{
+        $category = Category::create($request->getParsedBody());
+        return redirect()->route('category.list');
+    }
+    //update
+    function showUpdateForm(string $cateCode):View{
+        $category = $this->find($cateCode);
+
+        return view('category.update-form', [
+            'title' => "{$this->title} : Update",
+            'categoryN' => $category,
+        ]);
+    }
+    function update(ServerRequestInterface $request, string $cateCode): RedirectResponse
+    {
+        
+        $category = $this->find($cateCode);
+        $category->fill($request->getParsedBody());
+        $category->save();
+        return redirect()->route('category.view', ['cateCode' => $category->code]);
+    }
+    //delete
+    function delete(string $cateCode): RedirectResponse
+    {
+        $category = $this->find($cateCode);
+        $category->delete();
+        return redirect()->route('category.list');
     }
 }
