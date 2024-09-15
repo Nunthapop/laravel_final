@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $fillable =['code', 'name', 'description'];
-    function products() : BelongsTo {
-        return $this-> belongsTo(Product::class)->withTimestamp();
+    function products() : HasMany {
+        return $this-> hasMany(Product::class);
     }
 }

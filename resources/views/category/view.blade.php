@@ -14,7 +14,7 @@
       </script>
 </header>
 <ul>
-    {{-- <li> <a href="{{route('category.view-products' , ['shop' => $Cates->code])}}">Show Products</a></li> --}}
+    <li> <a href="{{route('category.view-products' , ['cateCode' => $Cates->code])}}">Show Products</a></li>
     <li> <a href="{{route('category.update-form' , ['cateCode' => $Cates->code])}}">Update</a></li>
     <li> <a href="{{route('category.delete' , ['cateCode' => $Cates->code])}}"  onclick="showConfirm()">delete</a></li>
 </ul>

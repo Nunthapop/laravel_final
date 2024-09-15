@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -19,20 +20,21 @@ class CateController extends SearchableController
         return Category::orderby('code');
     }
     //list
-    function list(ServerRequestInterface $request): View{
+    function list(ServerRequestInterface $request): View
+    {
         $search = $this->prepareSearch($request->getQueryParams());
         $query = $this->search($search);
-      //category Models
+        //category Models
         return view('category.list', [
             'title' => "{$this->title} : List",
-             'search' => $search,
+            'search' => $search,
             'category' => $query->paginate(5),
-           
-        ]);
 
+        ]);
     }
     //view
-    function show(string $cateCode): View{
+    function show(string $cateCode): View
+    {
         $Cates = $this->find($cateCode);
         return view('category.view', [
             'title' => "{$this->title} : View",
@@ -40,17 +42,20 @@ class CateController extends SearchableController
         ]);
     }
     //create 
-    function showCreateForm() :View{
-       return view( 'category.create-form' , [
-        'title' => "{$this->title} :Create"
-       ]);
+    function showCreateForm(): View
+    {
+        return view('category.create-form', [
+            'title' => "{$this->title} :Create"
+        ]);
     }
-    function create(ServerRequestInterface $request): RedirectResponse{
+    function create(ServerRequestInterface $request): RedirectResponse
+    {
         $category = Category::create($request->getParsedBody());
         return redirect()->route('category.list');
     }
     //update
-    function showUpdateForm(string $cateCode):View{
+    function showUpdateForm(string $cateCode): View
+    {
         $category = $this->find($cateCode);
 
         return view('category.update-form', [
@@ -60,7 +65,7 @@ class CateController extends SearchableController
     }
     function update(ServerRequestInterface $request, string $cateCode): RedirectResponse
     {
-        
+
         $category = $this->find($cateCode);
         $category->fill($request->getParsedBody());
         $category->save();
@@ -72,5 +77,22 @@ class CateController extends SearchableController
         $category = $this->find($cateCode);
         $category->delete();
         return redirect()->route('category.list');
+    }
+    //show
+    function showProducts(
+        ServerRequestInterface $request,
+        ProductController $productController,
+        string $cateCode
+    ): View {
+        $category = $this->find($cateCode);
+        $search = $productController->prepareSearch($request->getQueryParams());
+        $query = $productController-> filter($category->products(), $search);
+        return view("Category.view-products", [
+            'title' => "{$this->title} {$category->code} : Products",
+
+            'category' => $category,
+            'search' => $search,
+            'products' => $query->paginate(5),
+        ]);
     }
 }

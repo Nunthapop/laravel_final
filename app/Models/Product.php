@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -19,7 +20,7 @@ class Product extends Model
     function shops() : BelongsToMany{
         return $this->belongsToMany(Shop::class)->withTimestamps();
     }
-    function category() :HasMany{
-        return  $this->hasMany(Category::class)->withTimestamps();
+    function category() :BelongsTo{
+        return  $this->BelongsTo(Category::class)->withTimestamps();
     }
 }

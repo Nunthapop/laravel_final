@@ -130,7 +130,7 @@ class ProductController extends SearchableController
         return view('products.view-shops', [
             'title' => "{$this->title} {$product->code} : Shop",
 
-            'product' => $product,
+            'products' => $product,
             'search' => $search,
             'shops' => $query->paginate(5),
         ]);
