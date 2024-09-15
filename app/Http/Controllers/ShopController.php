@@ -26,7 +26,7 @@ class ShopController extends SearchableController
     function list(ServerRequestInterface $request): View
     {
         $search = $this->prepareSearch($request->getQueryParams());
-        $query = $this->search($search)->withCount('products');
+        $query = $this->search($search)->withCount('products'); //products from method in shop model
       //Shop Models
         return view('shops.list', [
             'title' => "{$this->title} : List",

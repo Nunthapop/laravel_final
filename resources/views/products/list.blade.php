@@ -38,6 +38,7 @@
                 <th>Code</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Shops count</th>
             </tr>
             <tbody>
@@ -48,6 +49,7 @@
                             </a> </td>
                         <td> {{ $product->name }}</td>
                         <td> {{ $product->price }}</td>
+                       <td>{{ $product->Category->name }}</td>
                         <td> {{ $product->shops_count }}</td>
                 </tr>
                 @endforeach

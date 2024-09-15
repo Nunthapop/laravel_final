@@ -35,7 +35,7 @@
             <tr>
                 <th>Code</th>
                 <th>Name</th>
-                <th>Owner</th>
+                <th>price</th>
              
             </tr>
             <tbody>

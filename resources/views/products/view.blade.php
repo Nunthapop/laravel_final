@@ -16,12 +16,14 @@
             <tr>
                 <th>Code</th>
                 <th>name</th>
+                <th>Category</th>
                 <th>price</th>
                 <th>description</th>
             </tr>
             <tr>
                 <td>{{$product->code}}</td>
                 <td>{{$product->name}}</td>
+                <th>{{$product->Category->name}}</th>
                 <td>{{number_format((double)$product->price ,2)}}</td>
                 <td>{{$product->description}}</td>
             </tr>

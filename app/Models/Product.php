@@ -21,6 +21,6 @@ class Product extends Model
         return $this->belongsToMany(Shop::class)->withTimestamps();
     }
     function category() :BelongsTo{
-        return  $this->BelongsTo(Category::class)->withTimestamps();
+        return  $this->BelongsTo(Category::class);
     }
 }

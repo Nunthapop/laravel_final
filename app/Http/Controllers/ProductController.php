@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -23,14 +24,17 @@ class ProductController extends SearchableController
         return Product::orderby('code');
     }
 
-    function list(ServerRequestInterface $request): View
+    function list(ServerRequestInterface $request, CateController $categoryController): View
     {
         $search = $this->prepareSearch($request->getQueryParams());
         $query = $this->search($search)->withCount('shops');
+        $categories = Category::all();
+       
         return view('products.list', [
             'title' => "{$this->title} : List",
             'search' => $search,
             'products' => $query->paginate(5),
+            'category' => $categories,
         ]);
     }
 
@@ -129,7 +133,6 @@ class ProductController extends SearchableController
 
         return view('products.view-shops', [
             'title' => "{$this->title} {$product->code} : Shop",
-
             'products' => $product,
             'search' => $search,
             'shops' => $query->paginate(5),
