@@ -14,17 +14,17 @@
     <nav>
         <ul>
             <li><a href="{{ route('products.view', [
-                'product' => $product->code,
+                'product' => $products->code,
             ]) }}">&lt; Back</a></li>
         </ul>
     </nav>
-    <form action="{{ route('products.view-shops', ['product' => $product->code]) }}" method="get" class="search-form">
+    <form action="{{ route('products.view-shops', ['product' => $products->code]) }}" method="get" class="search-form">
         <label>
             Search
             <input type="text" name="term" value="{{ $search['term'] }}" />
         </label>
         <button type="submit" class="primary">Search</button>
-        <a href="{{ route('products.view-shops', ['product' => $product->code]) }}">
+        <a href="{{ route('products.view-shops', ['product' => $products->code]) }}">
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
