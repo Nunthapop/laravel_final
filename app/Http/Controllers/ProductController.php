@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\RedirectResponse;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Shop;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Redirect;
+
 
 
 class ProductController extends SearchableController
@@ -29,7 +33,7 @@ class ProductController extends SearchableController
         $search = $this->prepareSearch($request->getQueryParams());
         $query = $this->search($search)->withCount('shops');
         $categories = Category::all();
-       
+
         return view('products.list', [
             'title' => "{$this->title} : List",
             'search' => $search,
@@ -138,4 +142,43 @@ class ProductController extends SearchableController
             'shops' => $query->paginate(5),
         ]);
     }
+    //show add shop
+    function showAddShopsForm(
+        string $productCode,
+        ShopController $shopController,
+        ServerRequestInterface $request
+    ): View {
+        $product = $this->find($productCode);
+        $search = $shopController->prepareSearch($request->getQueryParams());
+        $query = Shop::orderBy('code')
+            ->whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
+                return $innerQuery->where('code', $product->code);
+            });
+        // $query = $query->whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
+        //     $innerQuery->where('code', $product->code);
+        // });
+        $query = $shopController->filter($query, $search);
+        // Filter out shops that already have the product
+
+
+        return view('products.add-shops-form', [
+            'title' => "{$this->title} {$product->code} : Add Shops",
+            'search' => $search,
+            'products' => $product,
+            'shops' => $query->paginate(5),
+        ]);
+    }
+    //add shop 
+    function addShop(ServerRequestInterface $request, string $productCode): RedirectResponse
+    {
+        $product = $this->find($productCode);
+        $data = $request->getParsedBody();
+        // To make sure that no duplicate shop.
+        $shop = Shop::whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
+            return $innerQuery->where('code', $product->code);
+        })->where('code', $data['shop'])->firstOrFail();
+        $product->shops()->attach($shop);
+        return redirect()->back();
+    }
+    //remove shop
 }
