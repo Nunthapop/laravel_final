@@ -126,6 +126,7 @@ class ProductController extends SearchableController
 
         return $query;
     }
+    //products.view-shops
     function showShops(
         ServerRequestInterface $request,
         ShopController $shopController,
@@ -142,7 +143,7 @@ class ProductController extends SearchableController
             'shops' => $query->paginate(5),
         ]);
     }
-    //show add shop
+    //products.add-shops-form
     function showAddShopsForm(
         string $productCode,
         ShopController $shopController,
@@ -154,13 +155,8 @@ class ProductController extends SearchableController
             ->whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
                 return $innerQuery->where('code', $product->code);
             });
-        // $query = $query->whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
-        //     $innerQuery->where('code', $product->code);
-        // });
         $query = $shopController->filter($query, $search);
         // Filter out shops that already have the product
-
-
         return view('products.add-shops-form', [
             'title' => "{$this->title} {$product->code} : Add Shops",
             'search' => $search,
@@ -168,7 +164,7 @@ class ProductController extends SearchableController
             'shops' => $query->paginate(5),
         ]);
     }
-    //add shop 
+    //Redirect to products.add-shops-form
     function addShop(ServerRequestInterface $request, string $productCode): RedirectResponse
     {
         $product = $this->find($productCode);
@@ -177,8 +173,18 @@ class ProductController extends SearchableController
         $shop = Shop::whereDoesntHave('products', function (Builder $innerQuery) use ($product) {
             return $innerQuery->where('code', $product->code);
         })->where('code', $data['shop'])->firstOrFail();
+        
         $product->shops()->attach($shop);
         return redirect()->back();
     }
-    //remove shop
+    ///Redirect to products.add-shops-form
+    function removeShop(
+        string $productCode,
+        string $shopCode
+    ): RedirectResponse {
+        $product = $this->find($productCode);
+        $shop = $product->shops()->where('code', $shopCode)->firstOrFail();
+        $product->shops()->detach($shop);
+        return redirect()->back();
+    }
 }

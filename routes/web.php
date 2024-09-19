@@ -22,6 +22,7 @@ route::controller(ProductController::class)
             Route::get('/add', 'showAddShopsForm')->name('add-shops-form');
             Route::post('/add', 'addShop')->name('add-shop');
          });
+         Route::get('/{shop}/remove', 'removeShop')->name('remove-shop');
          Route::get('/update', 'showUpdateForm')->name('update-form');
          Route::post('/update', 'update')->name('update');
          Route::get('/delete', 'delete')->name('delete');
@@ -36,6 +37,12 @@ route::controller(ShopController::class)
       route::post('/create', 'create')->name('create');
       Route::prefix('/{shop}')->group(function () {
          Route::get('', 'show')->name('view');
+         Route::prefix('/products')->group(function () {
+            Route::get('', 'showProducts')->name('view-products');
+            Route::get('/add', 'showAddProductsForm')->name('add-products-form');
+            Route::post('/add', 'addProduct')->name('add-product');
+         });
+         Route::get('/{product}/remove', 'removeProduct')->name('remove-product');
          Route::get('/shop', 'showProducts',)->name('view-products');
          Route::get('/update', 'showUpdateForm')->name('update-form');
          Route::post('/update', 'update')->name('update');
@@ -51,6 +58,11 @@ route::controller(CateController::class)
       route::post('/create', 'create')->name('create');
       Route::prefix('/{cateCode}')->group(function () {
          Route::get('', 'show')->name('view');
+         Route::prefix('/products')->group(function () {
+            Route::get('', 'showProducts')->name('view-products');
+            Route::get('/add', 'showAddProductsForm')->name('add-products-form');
+            Route::post('/add', 'addProduct')->name('add-product');
+         });
          Route::get('/shop', 'showProducts',)->name('view-products');
          Route::get('/update', 'showUpdateForm')->name('update-form');
          Route::post('/update', 'update')->name('update');

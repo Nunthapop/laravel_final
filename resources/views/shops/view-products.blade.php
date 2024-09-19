@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
+     
     {{-- </head> --}}
     <form action="{{ route('shops.view-products' , ['shop' => $shops->code]) }}" method="get" class="search-form">
         <label>
@@ -29,6 +30,7 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
+    <a href="{{ route('shops.add-products-form', ['shop' => $shops->code]) }}">Add product</a>
     <div>{{ $products->withQueryString()->links() }}</div>
     
         <table class="lg:w-1/2">
@@ -46,6 +48,7 @@
                             </a> </td>
                         <td> {{ $product->name }}</td>
                         <td> {{ $product->price }}</td>
+                        <td> <a href="{{route('shops.remove-product',['product' =>$product->code,'shop'=>$shops->code,])}}">Remove product</a></td>
                       
                 </tr>
                 @endforeach

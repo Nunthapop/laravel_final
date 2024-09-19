@@ -15,7 +15,8 @@
         <ul>
             <li><a href="{{ route('products.view', [
                 'product' => $products->code,
-            ]) }}">&lt; Back</a></li>
+            ]) }}">&lt;
+                    Back</a></li>
         </ul>
     </nav>
     <form action="{{ route('products.view-shops', ['product' => $products->code]) }}" method="get" class="search-form">
@@ -28,7 +29,8 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
-    <a href="{{ route('products.add-shops-form', ['product' => $products->code]) }}">Add shop</a>
+    <a href="{{ route('products.add-shops-form', 
+    ['product' => $products->code]) }}">Add shop</a>
     <div>{{ $shops->withQueryString()->links() }}</div>
 
     <table class="lg:w-1/2">
@@ -44,13 +46,15 @@
                             {{ $shop->code }} </a> </td>
                     <td> {{ $shop->name }}</td>
                     <td> {{ $shop->owner }}</td>
+                    <td>
+                        <a
+                            href="{{ route('products.remove-shop', 
+                            ['product' => $products->code,'shop' => $shop->code,]) }}">Remove</a>
+                    </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-
     <a href="{{ route('shops.create-form') }}">Create shops</a>
-
-
     </html>
 @endsection
