@@ -29,6 +29,7 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
+    <a href="{{ route('category.add-products-form' , ['cateCode' => $category->code]) }}">Add product</a>
     <div>{{ $products->withQueryString()->links() }}</div>
     
         <table class="lg:w-1/2">

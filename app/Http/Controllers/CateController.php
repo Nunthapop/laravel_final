@@ -86,7 +86,7 @@ class CateController extends SearchableController
     ): View {
         $category = $this->find($cateCode);
         $search = $productController->prepareSearch($request->getQueryParams());
-        $query = $productController-> filter($category->products(), $search);
+        $query = $productController->filter($category->products(), $search);
         return view("Category.view-products", [
             'title' => "{$this->title} {$category->code} : Products",
 
@@ -94,5 +94,44 @@ class CateController extends SearchableController
             'search' => $search,
             'products' => $query->paginate(5),
         ]);
+    }
+    //shops.add-products-form
+    function showAddProductsForm(
+        string $cateCode,
+        ProductController $productController,
+        ServerRequestInterface $request
+    ): View {
+        $category = $this->find($cateCode);
+        $search = $productController->prepareSearch($request->getQueryParams());
+        $query = Product::orderBy('code')
+            //'category': This is the name of the relationship method in the Product model. Eloquent uses this to find the corresponding Category model for filtering.
+            ->whereDoesntHave('category', function (Builder $innerQuery) use ($category) {
+                return $innerQuery->where('code', $category->code);
+            });
+        $query = $productController->filter($query, $search);
+        // Filter out shops that already have the product
+        return view('category.add-products-form', [
+            'title' => "{$this->title} {$category->code} : Add Products",
+            'search' => $search,
+            'category' => $category,
+            'products' => $query->paginate(5),
+        ]);
+    }
+    //Redirect to shops.add-products-form
+    function addProduct(ServerRequestInterface $request, string $cateCode): RedirectResponse
+    {
+        $cate = $this->find($cateCode);
+        $data = $request->getParsedBody();
+        // To make sure that no duplicate shop.
+        $product = Product::whereDoesntHave('category', function (Builder $innerQuery)
+        use ($cate) {
+            return $innerQuery->where('code', $cate->code);
+        })->where('code', $data['category'])->firstOrFail();
+        //attach() cannot use with HasMany() of product() in category model
+        // Associate the product with the category
+        // Assuming your Product model has a `category_id` field
+        $product->category_id = $cate->id; // Set the category_id
+        $product->save(); // Save the changes
+        return redirect()->back();
     }
 }
