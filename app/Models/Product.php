@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable =['code','name','price','description'];
+    protected $fillable =['code','name','category_id','price','description'];
     function shops() : BelongsToMany{
         return $this->belongsToMany(Shop::class)->withTimestamps();
     }

@@ -53,23 +53,36 @@ class ProductController extends SearchableController
     //create part
     function showCreateForm(): View
     {
+        $categories = Category::all();
         return view('products.create-form', [
             'title' => "{$this->title} : Create ",
+            'categories' => $categories
         ]);
     }
     function create(ServerRequestInterface $request): RedirectResponse
     {
-        $product = Product::create($request->getParsedBody());
+        $data = $request->getParsedBody();
+        dd($data);
+    // Ensure the 'category_id' field is included in the parsed body
+        $product = Product::create([
+        'code' => $data['code'],
+        'name' => $data['name'],
+        'price' => $data['price'],
+        'description' => $data['description'],
+        'category_id' => $data['category_id'],  // Make sure this is passed
+    ]);
         return redirect()->route('products.list');
     }
     //update part
     function showUpdateForm(string $productCode): View
     {
         $product = $this->find($productCode);
-
+        $categories = Category::all();
+        // $categories = 
         return view('products.update-form', [
             'title' => "{$this->title} : Update",
             'product' => $product,
+            'categories' => $categories
         ]);
     }
     function update(ServerRequestInterface $request, string $productCode): RedirectResponse
