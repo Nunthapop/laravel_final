@@ -19,6 +19,7 @@ class CateController extends SearchableController
         // Return the query builder for the Product model
         return Category::orderby('code');
     }
+    
     //list
     function list(ServerRequestInterface $request): View
     {
@@ -134,4 +135,46 @@ class CateController extends SearchableController
         $product->save(); // Save the changes
         return redirect()->back();
     }
+     //search part
+     function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation
+     {
+ 
+ 
+         if (!empty($term)) {
+             foreach (\preg_split('/\s+/', \trim($term)) as $word) {
+                 $query->where(function (Builder $innerQuery) use ($word) {
+                     $innerQuery
+                         ->where('code', 'LIKE', "%{$word}%")
+                         ->orWhere('name', 'LIKE', "%{$word}%");
+                        
+                 });
+             }
+         }
+ 
+         return $query;
+     }
+     function prepareSearch(array $search): array
+     {
+         $search = parent::prepareSearch($search);
+         $search = \array_merge([
+             'minPrice' => null,
+             'maxPrice' => null,
+         ], $search);
+         return $search;
+     }
+     function filterByPrice(
+         Builder|Relation $query,
+         ?float $minPrice,
+         ?float $maxPrice
+     ): Builder|Relation {
+         if ($minPrice !== null) {
+             $query->where('price', '>=', $minPrice);
+         }
+ 
+         if ($maxPrice !== null) {
+             $query->where('price', '<=', $maxPrice);
+         }
+ 
+         return $query;
+     }
 }

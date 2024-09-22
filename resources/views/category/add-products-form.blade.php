@@ -41,7 +41,7 @@
         </label><br />
        </form>
         <div>{{ $products->withQueryString()->links() }}</div>
-        <form action="{{ route('category.add-products-form', ['cateCode' => $category->code]) }}">
+        <form action="{{ route('category.add-product', ['cateCode' => $category->code]) }}" method="post">
             @csrf
     
         <table class="lg:w-1/2">
