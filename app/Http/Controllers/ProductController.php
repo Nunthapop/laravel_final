@@ -132,12 +132,17 @@ class ProductController extends SearchableController
                 $query->where(function (Builder $innerQuery) use ($word) {
                     $innerQuery
                         ->where('code', 'LIKE', "%{$word}%")
-                        ->orWhere('name', 'LIKE', "%{$word}%");
+                        ->orWhere('name', 'LIKE', "%{$word}%")
+                        // Join with categories table to search by category name
+                        ->orWhereHas('category', function (Builder $query) use ($word) {
+                            $query->where('name', 'LIKE', "%{$word}%");
+                        });
                 });
             }
         }
-
+        
         return $query;
+        
     }
     //products.view-shops
     function showShops(

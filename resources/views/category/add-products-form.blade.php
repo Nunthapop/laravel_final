@@ -21,7 +21,7 @@
         </ul>
     </nav>
     {{-- ['shop' => $shops->code] sent to addProduct  --}}
-    <form action="{{ route('category.add-product', ['cateCode' => $category->code]) }}" method="post" class="search-form">
+    <form action="{{ route('category.add-products-form', ['cateCode' => $category->code]) }}" method="get" class="search-form">
         @csrf
         <label>
             Search
@@ -39,7 +39,11 @@
             Max Price
             <input type="number" name="maxPrice" value="{{ $search['maxPrice'] }}" step="any" />
         </label><br />
+       </form>
         <div>{{ $products->withQueryString()->links() }}</div>
+        <form action="{{ route('category.add-products-form', ['cateCode' => $category->code]) }}">
+            @csrf
+    
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>

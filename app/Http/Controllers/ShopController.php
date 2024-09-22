@@ -95,7 +95,10 @@ class ShopController extends SearchableController
                 $query->where(function (Builder $innerQuery) use ($word) {
                     $innerQuery
                         ->where('code', 'LIKE', "%{$word}%")
-                        ->orWhere('name', 'LIKE', "%{$word}%");
+                        ->orWhere('name', 'LIKE', "%{$word}%")
+                        ->orWhereHas('category', function (Builder $query) use ($word) {
+                            $query->where('name', 'LIKE', "%{$word}%");
+                        });
                 });
             }
         }

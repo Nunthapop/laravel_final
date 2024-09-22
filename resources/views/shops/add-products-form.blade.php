@@ -15,44 +15,51 @@
         <ul>
             <li><a href="{{ route('shops.view-products', [
                 'shop' => $shops->code,
-            ]) }}">&lt; Back</a></li>
+            ]) }}">&lt;
+                    Back</a></li>
         </ul>
     </nav>
     {{-- ['shop' => $shops->code] sent to addProduct  --}}
-    <form action="{{ route('shops.add-product', ['shop' => $shops->code]) }}" 
-        method="post" class="search-form">
+    <form action="{{ route('shops.add-products-form', ['shop' => $shops->code]) }}" method="get" class="search-form">
         @csrf
         <label>
             Search
             <input type="text" name="term" value="{{ $search['term'] }}" />
         </label>
-        <button type="submit" class="primary">Search</button>
+        <a href="{{ route('shops.add-products-form', ['shop' => $shops->code]) }}">
+            <button type="submit" class="primary">Search</button>
+        </a>
+
         <a href="{{ route('shops.add-products-form', ['shop' => $shops->code]) }}">
             <button type="button" class="accent">Clear</button>
         </a>
-
+    </form>
     <div>{{ $products->withQueryString()->links() }}</div>
+    <form action="{{ route('shops.add-product', ['shop' => $shops->code]) }}">
+        @csrf
 
-    <table class="lg:w-1/2">
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Price</th>
-        </tr>
-        <tbody>
+        <table class="lg:w-1/2">
             <tr>
-                @foreach ($products as $product)
-                    <td class="underline">
-                        {{ $product->code }} </td>
-                    <td> {{ $product->name }}</td>
-                    <td> {{ $product->price }}</td>
-                
-                    <td> <button type="submit" name="shop" value="{{ $product->code }}" class="primary">Add</button></td>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Price</th>
             </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <tbody>
+                <tr>
+                    @foreach ($products as $product)
+                        <td class="underline">
+                            {{ $product->code }} </td>
+                        <td> {{ $product->name }}</td>
+                        <td> {{ $product->price }}</td>
+
+                        <td> <button type="submit" name="shop" value="{{ $product->code }}"
+                                class="primary">Add</button></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
     </html>
-</form>
+    </form>
+
 @endsection
