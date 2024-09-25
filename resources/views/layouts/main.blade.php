@@ -25,7 +25,9 @@
 
 </nav></br>
 
-
+@session('message')
+    <span> {{$value}}</span>
+@endsession
 <body class="box-border bg-pink-200 flex flex-col justify-center items-center">
     <p class="text-3xl font-bold mb-4"> @yield('title') </p>
 

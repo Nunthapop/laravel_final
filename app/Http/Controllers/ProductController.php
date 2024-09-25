@@ -90,7 +90,7 @@ class ProductController extends SearchableController
         $product = $this->find($productCode);
         $product->fill($request->getParsedBody());
         $product->save();
-        return redirect()->route('products.view', ['product' => $product->code]);
+        return redirect()->route('products.view', ['product' => $product->code])->with('message', 'Product has been updated');
     }
     function delete(string $productCode): RedirectResponse
     {
@@ -193,7 +193,7 @@ class ProductController extends SearchableController
         })->where('code', $data['shop'])->firstOrFail();
         
         $product->shops()->attach($shop);
-        return redirect()->back();
+        return redirect()->back()->with('message', "{$shop->code} has been added to {$product->code}");
     }
     ///Redirect to products.add-shops-form
     function removeShop(
@@ -203,6 +203,6 @@ class ProductController extends SearchableController
         $product = $this->find($productCode);
         $shop = $product->shops()->where('code', $shopCode)->firstOrFail();
         $product->shops()->detach($shop);
-        return redirect()->back();
+        return redirect()->back()->with('message', "{$shop->code} has been removed from {$product->code}");
     }
 }

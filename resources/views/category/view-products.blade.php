@@ -31,7 +31,9 @@
     </form>
     <a href="{{ route('category.add-products-form' , ['cateCode' => $category->code]) }}">Add product</a>
     <div>{{ $products->withQueryString()->links() }}</div>
-    
+    @php
+            session( )->put('bookmark.products.view',url()->full());
+        @endphp
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>

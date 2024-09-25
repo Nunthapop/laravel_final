@@ -35,9 +35,12 @@
         </a>
     </form>
     <div>{{ $products->withQueryString()->links() }}</div>
-    <form action="{{ route('shops.add-product', ['shop' => $shops->code]) }}">
+    <form action="{{ route('shops.add-product', ['shop' => $shops->code]) }}" method="POST">
         @csrf
-
+        
+        @php
+            session( )->put('bookmark.products.view',url()->full());
+        @endphp
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>

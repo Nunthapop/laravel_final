@@ -43,7 +43,9 @@
         <div>{{ $products->withQueryString()->links() }}</div>
         <form action="{{ route('category.add-product', ['cateCode' => $category->code]) }}" method="post">
             @csrf
-    
+            @php
+            session( )->put('bookmark.products.view',url()->full());
+        @endphp
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>

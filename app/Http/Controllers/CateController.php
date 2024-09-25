@@ -52,7 +52,7 @@ class CateController extends SearchableController
     function create(ServerRequestInterface $request): RedirectResponse
     {
         $category = Category::create($request->getParsedBody());
-        return redirect()->route('category.list');
+        return redirect()->route('category.list')->with('message', "Category {$category->name} created successfully");
     }
     //update
     function showUpdateForm(string $cateCode): View
@@ -70,14 +70,14 @@ class CateController extends SearchableController
         $category = $this->find($cateCode);
         $category->fill($request->getParsedBody());
         $category->save();
-        return redirect()->route('category.view', ['cateCode' => $category->code]);
+        return redirect()->route('category.view', ['cateCode' => $category->code])->with('message', "Category {$category->name} updated successfully");
     }
     //delete
     function delete(string $cateCode): RedirectResponse
     {
         $category = $this->find($cateCode);
         $category->delete();
-        return redirect()->route('category.list');
+        return redirect()->route('category.list')->with('message', "Category {$category->name} deleted successfully");
     }
     //show
     function showProducts(
@@ -133,7 +133,7 @@ class CateController extends SearchableController
         // Assuming your Product model has a `category_id` field
         $product->category_id = $cate->id; // Set the category_id
         $product->save(); // Save the changes
-        return redirect()->back();
+        return redirect()->back()->with('message', "{$product->code} has been added to {$cate->code}");
     }
      //search part
      function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation

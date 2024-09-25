@@ -56,7 +56,7 @@ class ShopController extends SearchableController
     function create(ServerRequestInterface $request): RedirectResponse
     {
         $shops = Shop::create($request->getParsedBody());
-        return redirect()->route('shops.list');
+        return redirect()->route('shops.list')->with('message', "Shop {$shops->code} created successfully");
     }
 
     //update
@@ -76,14 +76,14 @@ class ShopController extends SearchableController
         $shop = $this->find($shopCode);
         $shop->fill($request->getParsedBody());
         $shop->save();
-        return redirect()->route('shops.view', ['shop' => $shop->code]);
+        return redirect()->route('shops.view', ['shop' => $shop->code])->with('message', "Shop {$shop->code} updated successfully");
     }
     //delete
     function delete(string $shopCode): RedirectResponse
     {
         $shop = $this->find($shopCode);
         $shop->delete();
-        return redirect()->route('shops.list');
+        return redirect()->route('shops.list')->with('message', "Shop {$shop->code} deleted successfully");
     }
     //search part
     function filterByTerm(Builder|Relation $query, ?string $term): Builder|Relation
@@ -179,7 +179,7 @@ class ShopController extends SearchableController
             return $innerQuery->where('code', $shop->code);
         })->where('code', $data['shop'])->firstOrFail();
         $shop->products()->attach($product);
-        return redirect()->back();
+        return redirect()->back()->with('message', "{$product->code} has been added to {$shop->code}");
     }
     //remove Redirect to shops.add-products-form
     function removeProduct(
@@ -190,6 +190,6 @@ class ShopController extends SearchableController
         //find in product table where code = $productCode
         $product = $shop->products()->where('code', $productCode)->firstOrFail();
         $shop->products()->detach($product);
-        return redirect()->back();
+        return redirect()->back()->with('message', "{$product->code} has been removed from {$shop->code}");
     }
 }

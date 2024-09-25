@@ -33,6 +33,9 @@
     <div>{{ $products->withQueryString()->links() }}</div>
 
     <body>
+        @php
+            session( )->put('bookmark.products.view',url()->full());
+        @endphp
         <table class="lg:w-1/2">
             <tr>
                 <th>Code</th>
