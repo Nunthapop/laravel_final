@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CateController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,4 +69,12 @@ route::controller(CateController::class)
          Route::post('/update', 'update')->name('update');
          Route::get('/delete', 'delete')->name('delete');
       });
+   });
+Route::controller(LoginController::class)
+   ->prefix('/auth')
+   ->group(function () {
+      // name this route to login by default setting.
+      Route::get('/login', 'showLoginForm')->name('login');
+      Route::post('/login', 'authenticate')->name('authenticate');
+      Route::get('/logout', 'logout')->name('logout');
    });
