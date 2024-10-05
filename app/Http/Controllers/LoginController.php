@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+
 class LoginController extends Controller
 {
     function authenticate(ServerRequestInterface $request): RedirectResponse
@@ -28,12 +29,19 @@ class LoginController extends Controller
             //     'credentials' => 'The provided credentials do not match our records.',
             //     ]);
         }
+        else{
+            return redirect()->back()->withErrors([
+                'credentials' => 'The provided credentials do not match our records.',
+            ]);
+        }
     }
+
     function showLoginForm(): View
     {
-        return view('login-form');
+        return view('logins.form');
     }
-    function logout() : RedirectResponse{
+    function logout(): RedirectResponse
+    {
         Auth::logout();
         session()->invalidate();
         //regenerate CSRF TOKEN

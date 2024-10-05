@@ -34,6 +34,7 @@
 
     @yield('content')
 </body>
+</html>
 <form action="{{ route('authenticate') }}" method="post">
     @csrf
     <label for="email">Email</label>
@@ -45,5 +46,3 @@
         {{ $message }}
     @enderror
 </form>
-
-</html>

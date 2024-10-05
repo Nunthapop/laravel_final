@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    //no role assign here
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,4 +48,5 @@ class User extends Authenticatable
     function isAdministrator() : bool {
         return $this->role === 'ADMIN';
         }
+
 }

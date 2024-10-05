@@ -70,8 +70,10 @@ route::controller(CateController::class)
          Route::get('/delete', 'delete')->name('delete');
       });
    });
+
+
 Route::controller(LoginController::class)
-   ->prefix('/auth')
+   ->prefix('auth')
    ->group(function () {
       // name this route to login by default setting.
       Route::get('/login', 'showLoginForm')->name('login');
