@@ -10,15 +10,16 @@
     <form action="{{ route('authenticate') }}" method="post">
         @csrf
         <label>
-            E-mail <input type="text" name="email" required />
+        E-mail <input type="text" name="email" required />
         </label><br />
         <label>
-            Password <input type="password" name="password" required />
+        Password <input type="password" name="password" required />
         </label><br />
         <button type="submit">Login</button>
+        
         @error('credentials')
-            <div class="warn">{{ $message }}</div>
+        <div class="warn">{{ $message }}</div>
         @enderror
-    </form>
+        </form>
 </body>
 </html>

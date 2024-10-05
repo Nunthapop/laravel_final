@@ -22,12 +22,12 @@
     </ul>
     <p>652110118</p>
 
-    {{-- @auth
+    @auth
     <nav class="app-cmp-user-panel">
     <span>{{ \Auth::user()->name }}</span>
     <a href="{{ route('logout') }}">Logout</a>
     </nav>
-    @endauth --}}
+    @endauth
 </nav></br>
 
 @session('message')
