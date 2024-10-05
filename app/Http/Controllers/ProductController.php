@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Gate;
 
 
 
@@ -21,6 +22,8 @@ class ProductController extends SearchableController
     // We alias ServerRequestInterface to Request for short
     // Add the following property and methods in class body
     private string $title = 'Product';
+    
+    
     public function getQuery(): Builder
     {
         //return ข้อมูลจาก database เรียงตาม code
@@ -53,6 +56,7 @@ class ProductController extends SearchableController
     //create part
     function showCreateForm(): View
     {
+        Gate::authorize('create', Product::class);
         $categories = Category::all();
         return view('products.create-form', [
             'title' => "{$this->title} : Create ",
@@ -61,6 +65,7 @@ class ProductController extends SearchableController
     }
     function create(ServerRequestInterface $request): RedirectResponse
     {
+        Gate::authorize('create', Product::class);
         $data = $request->getParsedBody();
         dd($data);
     // Ensure the 'category_id' field is included in the parsed body
@@ -76,6 +81,7 @@ class ProductController extends SearchableController
     //update part
     function showUpdateForm(string $productCode): View
     {
+        Gate::authorize('update', Product::class);
         $product = $this->find($productCode);
         $categories = Category::all();
         // $categories = 
@@ -87,6 +93,7 @@ class ProductController extends SearchableController
     }
     function update(ServerRequestInterface $request, string $productCode): RedirectResponse
     {
+        Gate::authorize('update', Product::class);
         $product = $this->find($productCode);
         $product->fill($request->getParsedBody());
         $product->save();
@@ -94,6 +101,7 @@ class ProductController extends SearchableController
     }
     function delete(string $productCode): RedirectResponse
     {
+        Gate::authorize('delete', Product::class);
         $product = $this->find($productCode);
         $product->delete();
         return redirect()->route('products.list');
@@ -167,6 +175,7 @@ class ProductController extends SearchableController
         ShopController $shopController,
         ServerRequestInterface $request
     ): View {
+        Gate::authorize('update', Product::class);
         $product = $this->find($productCode);
         $search = $shopController->prepareSearch($request->getQueryParams());
         $query = Shop::orderBy('code')
@@ -185,6 +194,7 @@ class ProductController extends SearchableController
     //Redirect to products.add-shops-form
     function addShop(ServerRequestInterface $request, string $productCode): RedirectResponse
     {
+        Gate::authorize('update', Product::class);
         $product = $this->find($productCode);
         $data = $request->getParsedBody();
         // To make sure that no duplicate shop.
@@ -200,6 +210,7 @@ class ProductController extends SearchableController
         string $productCode,
         string $shopCode
     ): RedirectResponse {
+        Gate::authorize('update', Product::class);
         $product = $this->find($productCode);
         $shop = $product->shops()->where('code', $shopCode)->firstOrFail();
         $product->shops()->detach($shop);

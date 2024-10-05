@@ -22,7 +22,12 @@
     </ul>
     <p>652110118</p>
 
-
+    {{-- @auth
+    <nav class="app-cmp-user-panel">
+    <span>{{ \Auth::user()->name }}</span>
+    <a href="{{ route('logout') }}">Logout</a>
+    </nav>
+    @endauth --}}
 </nav></br>
 
 @session('message')
@@ -35,14 +40,3 @@
     @yield('content')
 </body>
 </html>
-<form action="{{ route('authenticate') }}" method="post">
-    @csrf
-    <label for="email">Email</label>
-    <input type="text" name="email" required>
-    <label for="password">Password</label>
-    <input type="text" name="password" required>
-    <button type="submit">Login</button>
-    @error('credntials')
-        {{ $message }}
-    @enderror
-</form>

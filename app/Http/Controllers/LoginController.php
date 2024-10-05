@@ -38,7 +38,7 @@ class LoginController extends Controller
 
     function showLoginForm(): View
     {
-        return view('logins.form');
+        return view('auth.form');
     }
     function logout(): RedirectResponse
     {
