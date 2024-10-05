@@ -3,11 +3,12 @@
 namespace App\Policies;
 
 use App\Models\User;
-
+//ไว้กำหนดว่า $user allowing to to do some action in product class
 class ProductPolicy
 {
     /**
      * Create a new policy instance.
+     * 
      */
     public function __construct() {}
 

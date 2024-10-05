@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Gate;
 
 class CateController extends SearchableController
 {
@@ -76,6 +77,7 @@ class CateController extends SearchableController
     function delete(string $cateCode): RedirectResponse
     {
         $category = $this->find($cateCode);
+        Gate::authorize('delete', $category);
         $category->delete();
         return redirect()->route('category.list')->with('message', "Category {$category->name} deleted successfully");
     }

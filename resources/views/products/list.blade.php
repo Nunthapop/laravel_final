@@ -59,7 +59,15 @@
             </tbody>
         </table>
     </body>
-    <a href="{{ route('products.create-form') }}">New product</a>
+    <nav>
+        <ul>
+        @can('create', \App\Models\Product::class)
+        <li>
+        <a href="{{ route('products.create-form') }}">New Product</a>
+        </li>
+        @endcan
+        </ul>
+        </nav>
 
     </html>
 @endsection

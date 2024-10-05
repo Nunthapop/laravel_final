@@ -29,8 +29,11 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
-    <a href="{{ route('products.add-shops-form', 
-    ['product' => $products->code]) }}">Add shop</a>
+    @can('update', \App\Models\Product::class)
+<li><a href="{{ route('products.add-shops-form', 
+    ['product' => $products->code]) }}">Add Shops</a></li>
+@endcan
+   
     <div>{{ $shops->withQueryString()->links() }}</div>
 
     <table class="lg:w-1/2">
@@ -48,8 +51,11 @@
                     <td> {{ $shop->owner }}</td>
                     <td>
                         <a
-                            href="{{ route('products.remove-shop', 
-                            ['product' => $products->code,'shop' => $shop->code,]) }}">Remove</a>
+                    
+                            @can('update', \App\Models\Product::class)
+                            <a href="{{ route('products.remove-shop', 
+                            ['product' => $products->code,'shop' => $shop->code,]) }}">Remove</a></td>
+                            @endcan
                     </td>
             </tr>
             @endforeach
