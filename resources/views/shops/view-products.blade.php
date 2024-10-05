@@ -30,7 +30,10 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
+    @can('create', \App\Models\Shop::class)
     <a href="{{ route('shops.add-products-form', ['shop' => $shops->code]) }}">Add product</a>
+        @endcan
+
     <div>{{ $products->withQueryString()->links() }}</div>
     
         @php
@@ -51,14 +54,21 @@
                             </a> </td>
                         <td> {{ $product->name }}</td>
                         <td> {{ $product->price }}</td>
-                        <td> <a href="{{route('shops.remove-product',['product' =>$product->code,'shop'=>$shops->code,])}}">Remove product</a></td>
+
+                          @can('create', \App\Models\Shop::class)
+                            <td><a href="{{route('shops.add-product',
+                            ['product' =>$product->code,'shop'=>$shops->code,])}}">Add product</a></td><a href="{{route('shops.remove-product',['product' =>$product->code,'shop'=>$shops->code,])}}">Remove product</a>
+                            @endcan
+                     
                       
                 </tr>
                 @endforeach
             </tbody>
         </table>
-
+        @can('create', \App\Models\Shop::class)
         <a href="{{ route('shops.create-form') }}">Create shops</a>
+        @endcan
+       
    
 
     </html>

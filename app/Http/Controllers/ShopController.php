@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Gate;
 
 class ShopController extends SearchableController
 {
@@ -49,12 +50,14 @@ class ShopController extends SearchableController
     //create
     function showCreateForm(): View
     {
+        Gate::authorize('create', Shop::class);
         return view('shops.create-form', [
             'title' => "{$this->title} : Create ",
         ]);
     }
     function create(ServerRequestInterface $request): RedirectResponse
     {
+        Gate::authorize('create', Shop::class);
         $shops = Shop::create($request->getParsedBody());
         return redirect()->route('shops.list')->with('message', "Shop {$shops->code} created successfully");
     }
@@ -63,7 +66,7 @@ class ShopController extends SearchableController
     function showUpdateForm(string $shopsCode): View
     {
         $shop = $this->find($shopsCode);
-
+        Gate::authorize('update', Shop::class);
         return view('shops.update-form', [
             'title' => "{$this->title} : Update",
             'shop' => $shop,
@@ -72,7 +75,7 @@ class ShopController extends SearchableController
 
     function update(ServerRequestInterface $request, string $shopCode): RedirectResponse
     {
-
+        Gate::authorize('update', Shop::class);
         $shop = $this->find($shopCode);
         $shop->fill($request->getParsedBody());
         $shop->save();
@@ -81,6 +84,7 @@ class ShopController extends SearchableController
     //delete
     function delete(string $shopCode): RedirectResponse
     {
+        Gate::authorize('delete', Shop::class);
         $shop = $this->find($shopCode);
         $shop->delete();
         return redirect()->route('shops.list')->with('message', "Shop {$shop->code} deleted successfully");
@@ -153,6 +157,7 @@ class ShopController extends SearchableController
         ProductController $productController,
         ServerRequestInterface $request
     ): View {
+        Gate::authorize('update', Shop::class);
         $shop = $this->find($shopCode);
         $search = $productController->prepareSearch($request->getQueryParams());
         $query = Product::orderBy('code')
@@ -171,6 +176,7 @@ class ShopController extends SearchableController
    //Redirect to shops.add-products-form
     function addProduct(ServerRequestInterface $request, string $shopCode): RedirectResponse
     {
+        Gate::authorize('update', Shop::class);
         $shop = $this->find($shopCode);
         $data = $request->getParsedBody();
         // To make sure that no duplicate shop.
@@ -186,6 +192,7 @@ class ShopController extends SearchableController
         string $shopCode,
         string $productCode // เรียง parameter ตาม route = {shop} / {product}
     ): RedirectResponse {
+        Gate::authorize('delete', Shop::class);
         $shop = $this->find($shopCode);
         //find in product table where code = $productCode
         $product = $shop->products()->where('code', $productCode)->firstOrFail();

@@ -42,9 +42,10 @@
                 @endforeach
             </tbody>
         </table>
-
+        @can('create', \App\Models\Shop::class)
         <a href="{{ route('shops.create-form') }}">Create shops</a>
-   
+        @endcan
+        
 
     </html>
 @endsection
