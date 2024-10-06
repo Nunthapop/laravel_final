@@ -20,21 +20,24 @@
         <li> <a href="{{ route('shops.list') }}">Shops</a></li>
         <li> <a href="{{ route('category.list') }}">Category</a></li>
         @can('update', \App\Models\Product::class)
-        <li> <a href="{{ route('user.list') }}">user</a></li>
+            <li> <a href="{{ route('user.list') }}">user</a></li>
         @endcan
     </ul>
     <p>652110118</p>
 
     @auth
-    <nav class="app-cmp-user-panel">
-    <span>{{ \Auth::user()->name }}</span>
-    <a href="{{ route('logout') }}">Logout</a>
-    </nav>
+        <nav class="app-cmp-user-panel">
+
+            <a href="{{ route('user.view', ['userEmail' => Auth::user()->email]) }}">
+                {{ \Auth::user()->name }}</a> 
+            <a href="{{ route('logout') }}">Logout</a>
+        </nav>
     @endauth
 </nav></br>
 
+
 @session('message')
-    <span> {{ $value }}</span>
+    <span><strong>{{ $value }} </strong> </span>
 @endsession
 
 <body class="box-border bg-pink-200 flex flex-col justify-center items-center">
@@ -42,4 +45,5 @@
 
     @yield('content')
 </body>
+
 </html>

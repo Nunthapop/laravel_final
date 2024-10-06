@@ -15,18 +15,9 @@
         @csrf
 
         <body>
-            <p><strong> Email:</strong>:: <input type="text" name="email"></p>
-            <p><strong> Name:</strong>:: <input type="text" name="name"></p>
-            <p><strong> password:</strong>:: <input type="text" name="password"></p>
-            <label for="code">Role:</label>
-            <select name="role" id="code">
-                <option value="" selected>Please select  Role</option>
-                @foreach ($users as $user)
-                <option value="{{$user->role}}" name='role'> 
-                    {{$user->role}}</option>
-                @endforeach
-            </select>
-
+            <p><strong> Email:</strong>:: <input type="text" name="email">{{$user->email}}</p>
+            <p><strong> Name:</strong>:: <input type="text" name="name">{{$user->name}}</p>
+            <p><strong> Role:</strong>:: {{$user->role}}</p>
 
         </body>
         <button type="submit">Submit</button>

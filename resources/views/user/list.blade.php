@@ -36,10 +36,11 @@
             <tbody>
                 <tr>
                     @foreach ($users as $user)
-                    <td> {{ $user->email }}</td>
-                        {{-- <td class="underline font-bold hover:text-blue-600"> <a
-                                href="{{ route('user.view', ['cateCode' => $cate->code]) }}">  --}}
-                                {{-- {{$use->email}}</a>  --}}
+                 
+                        <td class="underline font-bold hover:text-blue-600"> 
+                            <a
+                                href="{{ route('user.view', ['userEmail' => $user->email]) }}">  
+                                {{$user->email}}</a> 
                             </td>
                         <td> {{ $user->name }}</td>
                         <td> {{ $user->role }}</td>
@@ -49,9 +50,7 @@
             </tbody>
         </table>
     </body>
-    {{-- @can('create', \App\Models\Category::class) 
-    <a href="{{ route('category.create-form') }}">New category</a>
-    @endcan --}}
+ 
    
 
     </html>
