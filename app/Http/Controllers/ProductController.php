@@ -33,8 +33,13 @@ class ProductController extends SearchableController
 
     function list(ServerRequestInterface $request, CateController $categoryController): View
     {
+        
         $search = $this->prepareSearch($request->getQueryParams());
+        // dd($search);
         $query = $this->search($search)->withCount('shops');
+        $minPrice = $search['minPrice'] ?? null;
+        $maxPrice = $search['maxPrice'] ?? null;
+        $query = $this->filterByPrice($query, $minPrice, $maxPrice);
         $categories = Category::all();
 
         return view('products.list', [

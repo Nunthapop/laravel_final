@@ -29,6 +29,9 @@ class ShopController extends SearchableController
     {
         $search = $this->prepareSearch($request->getQueryParams());
         $query = $this->search($search)->withCount('products'); //products from method in shop model
+        $minPrice = $search['minPrice'] ?? null;
+        $maxPrice = $search['maxPrice'] ?? null;
+        $query = $this->filterByPrice($query, $minPrice, $maxPrice);
         //Shop Models
         return view('shops.list', [
             'title' => "{$this->title} : List",

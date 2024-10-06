@@ -43,7 +43,8 @@
             <tr>
                 <th>Code</th>
                 <th>Name</th>
-                <th>Owner</th>
+                <th>price</th>
+                <th>edit</th>
              
             </tr>
             <tbody>
@@ -56,8 +57,8 @@
                         <td> {{ $product->price }}</td>
 
                           @can('create', \App\Models\Shop::class)
-                            <td><a href="{{route('shops.add-product',
-                            ['product' =>$product->code,'shop'=>$shops->code,])}}">Add product</a></td><a href="{{route('shops.remove-product',['product' =>$product->code,'shop'=>$shops->code,])}}">Remove product</a>
+                            <td> <a href="{{route('shops.remove-product',['product' =>$product->code,'shop'=>$shops->code,])}}">Remove product</a></td>
+                           
                             @endcan
                      
                       
@@ -65,9 +66,7 @@
                 @endforeach
             </tbody>
         </table>
-        @can('create', \App\Models\Shop::class)
-        <a href="{{ route('shops.create-form') }}">Create shops</a>
-        @endcan
+      
        
    
 

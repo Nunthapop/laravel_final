@@ -80,14 +80,15 @@ class UserController extends SearchableController
         $user = User::all();
         return view('user.create-form', [
             'title' => "{$this->title} : Create ",
-            'users' => $user,
+            'user' => $user,
         ]);
     }
+
     function create(ServerRequestInterface $request): RedirectResponse
     {
         // Gate::authorize('create', Product::class);
         $data = $request->getParsedBody();
-        dd($data);
+        // dd($data);
     // Ensure the 'category_id' field is included in the parsed body
         $user = User::create([
         'email' => $data['email'],

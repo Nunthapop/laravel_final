@@ -15,9 +15,28 @@
         @csrf
 
         <body>
-            <p><strong> Email:</strong>:: <input type="text" name="email">{{$user->email}}</p>
-            <p><strong> Name:</strong>:: <input type="text" name="name">{{$user->name}}</p>
-            <p><strong> Role:</strong>:: {{$user->role}}</p>
+            <p><strong> Email:</strong>:: <input type="text" name="email"></p>
+            <p><strong> Name:</strong>:: <input type="text" name="name"></p>
+            <p><strong> Password:</strong>:: <input type="text" name="password"></p>
+            <p><strong> Role:</strong>:: 
+                <select name="role" id="">
+                <option value="" selected>Please select your role</option>
+              
+                <option value="ADMIN">ADMIN </option>
+                <option value="user">USER </option>
+              
+            </select>
+        </p>
+
+
+
+            {{-- <p> <strong> Category:</strong>::<select name="" id="">
+                <option value="{{ $product->category_id }}">{{ $product->category->code }} {{ $product->category->name }}</option>
+                @foreach ($categories as $category)
+                    @if ($category->id != $product->category->id)
+                        <option value="{{ $category->id }}">{{ $category->code }} {{$category->name }}</option>
+                    @endif
+                @endforeach --}}
 
         </body>
         <button type="submit">Submit</button>
