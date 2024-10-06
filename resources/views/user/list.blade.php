@@ -24,7 +24,16 @@
     </form> --}}
     <a href="{{ route('user.create-form') }}">Create user</a>
     <div>{{ $users->withQueryString()->links() }}</div>
-
+<form action="{{ route('user.list') }}" method="get">
+    <label>
+        Search
+        <input type="text" name="term" value="{{ $search['term'] }}" />
+    </label>
+    <a href="{{ route('user.list') }}">
+        <button type="button" class="accent">Clear</button>
+    </a>
+    <button type="submit">Search</button>
+</form>
     <body>
         <table class="lg:w-1/2">
             <tr>
