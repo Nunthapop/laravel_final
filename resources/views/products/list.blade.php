@@ -68,6 +68,5 @@
         @endcan
         </ul>
         </nav>
-
     </html>
 @endsection

@@ -19,6 +19,9 @@
         <li class="mr-10"><a href="{{ route('products.list') }}">Products</a></li>
         <li> <a href="{{ route('shops.list') }}">Shops</a></li>
         <li> <a href="{{ route('category.list') }}">Category</a></li>
+        @can('update', \App\Models\Product::class)
+        <li> <a href="{{ route('user.list') }}">user</a></li>
+        @endcan
     </ul>
     <p>652110118</p>
 

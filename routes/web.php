@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CateController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -84,6 +85,26 @@ Route::middleware([
                      Route::post('/update', 'update')->name('update');
                      Route::get('/delete', 'delete')->name('delete');
                  });
+             });
+             Route::controller(UserController::class)
+             ->prefix('user')
+             ->name('user.')
+             ->group(function () {
+                 Route::get('', 'list')->name('list');
+                 Route::get('/create', 'showCreateForm')->name('create-form');
+                 Route::post('/create', 'create')->name('create');
+                //  Route::prefix('/{cateCode}')->group(function () {
+                //      Route::get('', 'show')->name('view');
+                //      Route::prefix('/products')->group(function () {
+                //          Route::get('', 'showProducts')->name('view-products');
+                //          Route::get('/add', 'showAddProductsForm')->name('add-products-form');
+                //          Route::post('/add', 'addProduct')->name('add-product');
+                //      });
+                //      Route::get('/shop', 'showProducts')->name('view-products');
+                //      Route::get('/update', 'showUpdateForm')->name('update-form');
+                //      Route::post('/update', 'update')->name('update');
+                //      Route::get('/delete', 'delete')->name('delete');
+                //  });
              });
       });
    });
