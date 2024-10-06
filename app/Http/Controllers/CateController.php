@@ -25,7 +25,7 @@ class CateController extends SearchableController
     function list(ServerRequestInterface $request): View
     {
         $search = $this->prepareSearch($request->getQueryParams());
-        $query = $this->search($search);
+        $query = $this->search($search)->withCount('products');
         //category Models
         return view('category.list', [
             'title' => "{$this->title} : List",
@@ -46,18 +46,21 @@ class CateController extends SearchableController
     //create 
     function showCreateForm(): View
     {
+        Gate::authorize('create', Category::class);
         return view('category.create-form', [
             'title' => "{$this->title} :Create"
         ]);
     }
     function create(ServerRequestInterface $request): RedirectResponse
     {
+        Gate::authorize('create', Category::class);
         $category = Category::create($request->getParsedBody());
         return redirect()->route('category.list')->with('message', "Category {$category->name} created successfully");
     }
     //update
     function showUpdateForm(string $cateCode): View
     {
+        Gate::authorize('update', Category::class);
         $category = $this->find($cateCode);
 
         return view('category.update-form', [
@@ -67,7 +70,7 @@ class CateController extends SearchableController
     }
     function update(ServerRequestInterface $request, string $cateCode): RedirectResponse
     {
-
+        Gate::authorize('update', Category::class);
         $category = $this->find($cateCode);
         $category->fill($request->getParsedBody());
         $category->save();
@@ -76,6 +79,7 @@ class CateController extends SearchableController
     //delete
     function delete(string $cateCode): RedirectResponse
     {
+       
         $category = $this->find($cateCode);
         Gate::authorize('delete', $category);
         $category->delete();
@@ -87,6 +91,7 @@ class CateController extends SearchableController
         ProductController $productController,
         string $cateCode
     ): View {
+     
         $category = $this->find($cateCode);
         $search = $productController->prepareSearch($request->getQueryParams());
         $query = $productController->filter($category->products(), $search);
@@ -104,6 +109,7 @@ class CateController extends SearchableController
         ProductController $productController,
         ServerRequestInterface $request
     ): View {
+        Gate::authorize('update', Category::class);
         $category = $this->find($cateCode);
         $search = $productController->prepareSearch($request->getQueryParams());
         $query = Product::orderBy('code')
@@ -123,6 +129,7 @@ class CateController extends SearchableController
     //Redirect to shops.add-products-form
     function addProduct(ServerRequestInterface $request, string $cateCode): RedirectResponse
     {
+        Gate::authorize('update', Category::class);
         $cate = $this->find($cateCode);
         $data = $request->getParsedBody();
         // To make sure that no duplicate shop.

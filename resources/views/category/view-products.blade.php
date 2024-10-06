@@ -29,7 +29,9 @@
             <button type="button" class="accent">Clear</button>
         </a>
     </form>
-    <a href="{{ route('category.add-products-form' , ['cateCode' => $category->code]) }}">Add product</a>
+    @can('create', \App\Models\Category::class)
+    <a href="{{ route('category.add-products-form' , ['cateCode' => $category->code]) }}">Add product</a> @endcan
+    
     <div>{{ $products->withQueryString()->links() }}</div>
     @php
             session( )->put('bookmark.products.view',url()->full());

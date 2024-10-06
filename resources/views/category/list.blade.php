@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Category')
+@section('title', 'Categor:List')
 
 @section('content')
     <!DOCTYPE html>
@@ -29,8 +29,8 @@
             <tr>
                 <th>Code</th>
                 <th>Name</th>
-                <th>Price</th>
-                <th>Shops count</th>
+                <th>No. of Products</th>
+                
             </tr>
             <tbody>
                 <tr>
@@ -39,15 +39,17 @@
                                 href="{{ route('category.view', ['cateCode' => $cate->code]) }}"> 
                                 {{$cate->code}}
                             </a> </td>
-                        <td> {{ $cate->code }}</td>
                         <td> {{ $cate->name }}</td>
-                        <td> {{ $cate->description }}</td>
+                        <td> {{ $cate->products_count }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </body>
+    @can('create', \App\Models\Category::class) 
     <a href="{{ route('category.create-form') }}">New category</a>
+    @endcan
+   
 
     </html>
 @endsection

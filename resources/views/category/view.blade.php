@@ -14,12 +14,13 @@
       </script>
 </header>
 <ul>
-    <li> <a href="{{route('category.view-products' , ['cateCode' => $Cates->code])}}">Show Products</a></li>
+    @can('update',  \App\Models\Category::class)
     <li> <a href="{{route('category.update-form' , ['cateCode' => $Cates->code])}}">Update</a></li>
-    
-    @can('delete', $category)
-    <li><a href="{{route('category.delete' , ['cateCode' => $Cates->code])}}">Delete</a></li>
     @endcan
+    <li> <a href="{{route('category.view-products' , ['cateCode' => $Cates->code])}}">Show Products</a></li>
+    @can('delete', $Cates)
+    <li><a href="{{route('category.delete' , ['cateCode' => $Cates->code])}}">Delete</a></li>
+   @endcan
 </ul>
 <table>
     <tbody>
