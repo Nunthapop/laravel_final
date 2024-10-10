@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\QueryException;
 
 
 
@@ -71,8 +72,9 @@ class ProductController extends SearchableController
     function create(ServerRequestInterface $request): RedirectResponse
     {
         Gate::authorize('create', Product::class);
+       try{
         $data = $request->getParsedBody();
-        dd($data);
+    
     // Ensure the 'category_id' field is included in the parsed body
         $product = Product::create([
         'code' => $data['code'],
@@ -81,8 +83,15 @@ class ProductController extends SearchableController
         'description' => $data['description'],
         'category_id' => $data['category_id'],  // Make sure this is passed
     ]);
-        return redirect()->route('products.list');
+        return redirect()->route('products.list');} catch (QueryException $e) {
+            return redirect()->back()->withInput()->withErrors([
+                   'error' => $e->errorInfo[2],
+            ]);
+        }
+
     }
+    
+
     //update part
     function showUpdateForm(string $productCode): View
     {
