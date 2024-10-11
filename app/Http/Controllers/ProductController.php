@@ -72,7 +72,7 @@ class ProductController extends SearchableController
     {
         Gate::authorize('create', Product::class);
         $data = $request->getParsedBody();
-        dd($data);
+        
     // Ensure the 'category_id' field is included in the parsed body
         $product = Product::create([
         'code' => $data['code'],

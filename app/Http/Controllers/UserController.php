@@ -56,6 +56,7 @@ class UserController extends SearchableController
     //list 
     function list(ServerRequestInterface $request): View
     {
+        Gate::authorize('update', Product::class);
         $search = $this->prepareSearch($request->getQueryParams());
         $query = $this->search($search);
         //category Models
