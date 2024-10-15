@@ -15,13 +15,13 @@
         @csrf
 
         <body>
-            <p><strong> Code:</strong>:: <input type="text" name="code"></p>
-            <p><strong> Name:</strong>:: <input type="text" name="name"></p>
-            <p><strong> Price:</strong>:: <input type="text" name="price"></p>
+            <p><strong> Code:</strong>:: <input type="text" name="code" value="{{ old('code') }}"></p>
+            <p><strong> Name:</strong>:: <input type="text" name="name" value="{{ old('name') }}"></p>
+            <p><strong> Price:</strong>:: <input type="text" name="price" value="{{ old('price') }}"></p>
             <label for="code">Category:</label>
             <select name="category_id" id="code">
                 <option value="" selected>Please select your cateogory</option>
-                @foreach ($categories as $catagory)S
+                @foreach ($categories as $catagory)
                 <option value="{{$catagory->id}}" name='category_id'> 
                     {{$catagory->code}}</option>
                 @endforeach
