@@ -27,9 +27,10 @@
 
     @auth
         <nav class="app-cmp-user-panel">
+            <a href="{{route('login')}}">Login</a>
 
             <a href="{{ route('user.view', ['userEmail' => Auth::user()->email]) }}">
-                {{ \Auth::user()->name }}</a>
+                {{ \Auth::user()->name }}</a> 
             <a href="{{ route('logout') }}">Logout</a>
         </nav>
     @endauth
@@ -39,6 +40,7 @@
 @session('message')
     <span><strong>{{ $value }} </strong> </span>
 @endsession
+
 @error('error')
     <div class="app-cmp-notification">
         <span class="app-cl-warn">{{ $message }}</span>
